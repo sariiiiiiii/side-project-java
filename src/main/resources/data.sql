@@ -1,0 +1,1 @@
+INSERT INTO member (id, password, name, created_date, modified_date) VALUES ('test', SHA2('test', 256), '관리자', now(), now());
