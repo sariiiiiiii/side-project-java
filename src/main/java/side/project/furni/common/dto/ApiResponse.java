@@ -10,12 +10,12 @@ import java.io.Serializable;
 public class ApiResponse<T> implements Serializable {
 
     private final boolean result;
-    private T Contents;
-    private ErrorResponse Error;
+    private T contents;
+    private ErrorResponse error;
 
     private ApiResponse(T contents) {
         this.result = true;
-        this.Contents = contents;
+        this.contents = contents;
     }
 
     public ApiResponse() {
@@ -24,8 +24,8 @@ public class ApiResponse<T> implements Serializable {
 
     public ApiResponse(ErrorResponse error) {
         this.result = false;
-        Contents = null;
-        Error = error;
+        this.contents = null;
+        this.error = error;
     }
 
     public static <T> ApiResponse<T> from(T contents) {
