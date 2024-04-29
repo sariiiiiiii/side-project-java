@@ -1,0 +1,9 @@
+[[login]]
+=== 로그인
+
+==== HTTP Request
+include::{snippets}/login/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/login/http-response.adoc[]
+include::{snippets}/login/response-fields.adoc[]
