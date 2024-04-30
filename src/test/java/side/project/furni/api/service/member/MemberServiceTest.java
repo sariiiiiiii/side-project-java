@@ -27,7 +27,7 @@ class MemberServiceTest extends IntegrationTestSupport {
 
     @Test
     @DisplayName("회원이 로그인에 실패한다")
-    void failedLogin() {
+    void loginFailure() {
         // given
         String id = "test1";
         String password = "test1";

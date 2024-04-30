@@ -1,0 +1,9 @@
+[[login-failure]]
+=== 로그인 실패
+
+==== HTTP Request
+include::{snippets}/login-failure/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/login-failure/http-response.adoc[]
+include::{snippets}/login-failure/response-fields.adoc[]

@@ -36,7 +36,7 @@ class MemberControllerTest extends ControllerTestSupport {
 
     @Test
     @DisplayName("회원이 로그인에 실패한다")
-    void failedLogin() throws Exception {
+    void loginFailure() throws Exception {
         // given
         LoginRequest request = new LoginRequest("test1", "test1");
 

@@ -13,3 +13,4 @@ endif::[]
 == Login API
 
 include::api/member/login.adoc[]
+include::api/member/loginFailure.adoc[]
