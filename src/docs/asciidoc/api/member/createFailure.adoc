@@ -1,0 +1,9 @@
+[[create-failure]]
+=== 회원가입 실패
+
+==== HTTP Request
+include::{snippets}/create-failure/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/create-failure/http-response.adoc[]
+include::{snippets}/create-failure/response-fields.adoc[]

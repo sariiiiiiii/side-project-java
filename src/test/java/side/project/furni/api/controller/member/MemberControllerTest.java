@@ -2,15 +2,18 @@ package side.project.furni.api.controller.member;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
-import org.mockito.Mockito;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import side.project.furni.ControllerTestSupport;
+import side.project.furni.api.controller.member.request.CreateRequest;
 import side.project.furni.api.controller.member.request.LoginRequest;
+import side.project.furni.common.dto.ApiResponse;
+import side.project.furni.common.error.custom.DuplicateMemberException;
 import side.project.furni.common.error.custom.LoginFailedApiException;
 
 import static org.hamcrest.Matchers.nullValue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -19,37 +22,87 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class MemberControllerTest extends ControllerTestSupport {
 
     @Test
-    @DisplayName("회원이 로그인에 성공한다")
-    void login() throws Exception {
+    @DisplayName("회원가입에 성공한다")
+    void create_SuccessfulRegistration() throws Exception {
         // given
-        LoginRequest request = new LoginRequest("test", "test");
+        CreateRequest request = new CreateRequest("test1", "test1", "홍길동");
+        ApiResponse<?> response = ApiResponse.OK();
+        given(memberController.create(any(CreateRequest.class)))
+                .will(invocation -> response);
 
         // when // then
         mockMvc.perform(
-                post("/member/login")
-                        .content(objectMapper.writeValueAsString(request))
-                        .contentType(MediaType.APPLICATION_JSON)
-        )
+                        post("/member/create")
+                                .content(objectMapper.writeValueAsString(request))
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.result").value(true))
+                .andExpect(jsonPath("$.contents").value(nullValue()))
+                .andExpect(jsonPath("$.error").value(nullValue()));
+    }
+
+    @Test
+    @DisplayName("회원가입에 실패한다")
+    void create_FailedRegistration_DuplicateMember() throws Exception {
+        // given
+        CreateRequest request = new CreateRequest("test", "test1", "홍길동");
+
+        // stub
+        when(memberController.create(any(CreateRequest.class)))
+                .thenThrow(DuplicateMemberException.class);
+
+        // when // then
+        mockMvc.perform(
+                        post("/member/create")
+                                .content(objectMapper.writeValueAsString(request))
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(jsonPath("$.result").value(false))
+                .andExpect(jsonPath("$.contents").value(nullValue()))
+                .andExpect(jsonPath("$.error.status").value("CONFLICT"));
+    }
+
+    @Test
+    @DisplayName("회원이 로그인에 성공한다")
+    void login_SuccessfulLogin() throws Exception {
+        // given
+        LoginRequest request = new LoginRequest("test", "test");
+        ApiResponse<?> response = ApiResponse.OK();
+        given(memberController.login(any(LoginRequest.class)))
+                .will(invocation -> response);
+
+        // when // then
+        mockMvc.perform(
+                        post("/member/login")
+                                .content(objectMapper.writeValueAsString(request))
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.result").value(true))
+                .andExpect(jsonPath("$.contents").value(nullValue()))
+                .andExpect(jsonPath("$.error").value(nullValue()));
     }
 
     @Test
     @DisplayName("회원이 로그인에 실패한다")
-    void loginFailure() throws Exception {
+    void login_FailedLogin_IncorrectCredentials() throws Exception {
         // given
         LoginRequest request = new LoginRequest("test1", "test1");
 
-        // when
-        Mockito.when(memberController.login(ArgumentMatchers.any(LoginRequest.class)))
-                        .thenThrow(LoginFailedApiException.class);
+        // stub
+        when(memberController.login(any(LoginRequest.class)))
+                .thenThrow(LoginFailedApiException.class);
 
-        // then
+        // when // then
         mockMvc.perform(
-                post("/member/login")
-                        .content(objectMapper.writeValueAsString(request))
-                        .contentType(MediaType.APPLICATION_JSON)
-        )
+                        post("/member/login")
+                                .content(objectMapper.writeValueAsString(request))
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.result").value(false))

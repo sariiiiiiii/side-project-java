@@ -1,0 +1,18 @@
+### login
+POST localhost:8080/member/login
+Content-Type: application/json
+
+{
+  "id": "test",
+  "password": "test1"
+}
+
+### create
+POST localhost:8080/member/create
+Content-Type: application/json
+
+{
+  "id": "test1",
+  "password": "test1",
+  "name": "홍길동"
+}

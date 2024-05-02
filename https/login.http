@@ -1,8 +1,0 @@
-### login
-POST localhost:8080/member/login
-Content-Type: application/json
-
-{
-  "id": "test",
-  "password": "test1"
-}

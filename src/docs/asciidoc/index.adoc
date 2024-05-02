@@ -14,3 +14,9 @@ endif::[]
 
 include::api/member/login.adoc[]
 include::api/member/loginFailure.adoc[]
+
+[[Create-API]]
+== Create API
+
+include::api/member/create.adoc[]
+include::api/member/createFailure.adoc[]

@@ -5,11 +5,13 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import side.project.furni.api.service.member.request.CreateServiceRequest;
 import side.project.furni.common.BaseTimeEntity;
+import side.project.furni.util.SHA256;
 
 @Entity
-@Table(name = "member")
 @Getter
+@Table(name = "member")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseTimeEntity {
 
@@ -33,4 +35,11 @@ public class Member extends BaseTimeEntity {
         this.password = password;
         this.name = name;
     }
+
+    public Member(CreateServiceRequest request) {
+        this.id = request.id();
+        this.password = SHA256.encrypt(request.password());
+        this.name = request.name();
+    }
+
 }
