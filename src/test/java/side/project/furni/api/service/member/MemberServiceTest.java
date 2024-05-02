@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import side.project.furni.IntegrationTestSupport;
 import side.project.furni.api.service.member.request.CreateServiceRequest;
 import side.project.furni.api.service.member.request.LoginServiceRequest;
+import side.project.furni.api.service.member.response.LoginResponse;
 import side.project.furni.common.dto.ApiResponse;
 import side.project.furni.common.error.custom.DuplicateMemberException;
 import side.project.furni.common.error.custom.LoginFailedApiException;
@@ -47,6 +48,7 @@ class MemberServiceTest extends IntegrationTestSupport {
         // when // then
         ApiResponse<?> result = memberService.login(request);
         assertThat(result.isResult()).isTrue();
+        assertThat(result.getContents()).isNotNull();
     }
 
     @Test

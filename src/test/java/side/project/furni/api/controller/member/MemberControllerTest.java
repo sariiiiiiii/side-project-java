@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import side.project.furni.ControllerTestSupport;
 import side.project.furni.api.controller.member.request.CreateRequest;
 import side.project.furni.api.controller.member.request.LoginRequest;
+import side.project.furni.api.service.member.response.LoginResponse;
 import side.project.furni.common.dto.ApiResponse;
 import side.project.furni.common.error.custom.DuplicateMemberException;
 import side.project.furni.common.error.custom.LoginFailedApiException;
@@ -69,8 +70,11 @@ class MemberControllerTest extends ControllerTestSupport {
     @DisplayName("회원이 로그인에 성공한다")
     void login_SuccessfulLogin() throws Exception {
         // given
-        LoginRequest request = new LoginRequest("test", "test");
-        ApiResponse<?> response = ApiResponse.OK();
+        String id = "test";
+        String password = "test";
+        String name = "관리자";
+        LoginRequest request = new LoginRequest(id, password);
+        ApiResponse<?> response = ApiResponse.from(new LoginResponse(1L, id, name));
         given(memberController.login(any(LoginRequest.class)))
                 .will(invocation -> response);
 
@@ -83,7 +87,10 @@ class MemberControllerTest extends ControllerTestSupport {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.result").value(true))
-                .andExpect(jsonPath("$.contents").value(nullValue()))
+                .andExpect(jsonPath("$.contents").isNotEmpty())
+                .andExpect(jsonPath("$.contents.memberId").value(1L))
+                .andExpect(jsonPath("$.contents.id").value(id))
+                .andExpect(jsonPath("$.contents.name").value(name))
                 .andExpect(jsonPath("$.error").value(nullValue()));
     }
 

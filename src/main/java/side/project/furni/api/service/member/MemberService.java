@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import side.project.furni.api.service.member.request.CreateServiceRequest;
 import side.project.furni.api.service.member.request.LoginServiceRequest;
+import side.project.furni.api.service.member.response.LoginResponse;
 import side.project.furni.common.dto.ApiResponse;
 import side.project.furni.common.error.custom.DuplicateMemberException;
 import side.project.furni.common.error.custom.LoginFailedApiException;
@@ -29,14 +30,13 @@ public class MemberService {
         }
 
         memberRepository.save(CreateServiceRequest.toEntity(request));
-
         return ApiResponse.OK();
     }
 
     public ApiResponse<?> login(final LoginServiceRequest request) {
-        memberRepository.findByIdAndPassword(request.id(), SHA256.encrypt(request.password()))
+        Member findMember = memberRepository.findByIdAndPassword(request.id(), SHA256.encrypt(request.password()))
                 .orElseThrow(LoginFailedApiException::new);
-        return ApiResponse.OK();
+        return ApiResponse.from(new LoginResponse(findMember.getMemberId(), findMember.getId(), findMember.getName()));
     }
 
 }

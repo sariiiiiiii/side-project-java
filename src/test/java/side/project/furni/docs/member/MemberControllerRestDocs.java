@@ -11,6 +11,7 @@ import side.project.furni.api.controller.member.request.LoginRequest;
 import side.project.furni.api.service.member.MemberService;
 import side.project.furni.api.service.member.request.CreateServiceRequest;
 import side.project.furni.api.service.member.request.LoginServiceRequest;
+import side.project.furni.api.service.member.response.LoginResponse;
 import side.project.furni.common.dto.ApiResponse;
 import side.project.furni.docs.RestDocsSupport;
 
@@ -119,10 +120,11 @@ public class MemberControllerRestDocs extends RestDocsSupport {
     @DisplayName("로그인을 하는 API")
     void login_SuccessfulLogin() throws Exception {
         // stub
-        given(memberService.login(any(LoginServiceRequest.class)))
-                .will(invocation -> ApiResponse.OK());
-
         LoginRequest loginRequest = new LoginRequest("honggildong", "honggildong1234");
+        LoginResponse response = new LoginResponse(1L, "abcd1234", "홍길동");
+
+        given(memberService.login(any(LoginServiceRequest.class)))
+                .will(invocation -> ApiResponse.from(response));
 
         mockMvc.perform(
                 post("/member/login")
@@ -144,8 +146,14 @@ public class MemberControllerRestDocs extends RestDocsSupport {
                         responseFields(
                                 fieldWithPath("result").type(JsonFieldType.BOOLEAN)
                                         .description("결과"),
-                                fieldWithPath("contents").type(JsonFieldType.NULL)
+                                fieldWithPath("contents").type(JsonFieldType.OBJECT)
                                         .description("결과 데이터").optional(),
+                                fieldWithPath("contents.memberId").type(JsonFieldType.NUMBER)
+                                        .description("회원 고유아이디").optional(),
+                                fieldWithPath("contents.id").type(JsonFieldType.STRING)
+                                        .description("회원 ID").optional(),
+                                fieldWithPath("contents.name").type(JsonFieldType.STRING)
+                                        .description("회원 이름").optional(),
                                 fieldWithPath("error").type(JsonFieldType.NULL)
                                         .description("에러").optional()
                         )

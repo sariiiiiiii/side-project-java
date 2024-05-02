@@ -1,10 +1,9 @@
 package side.project.furni.util;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class SHA256Test {
 
@@ -18,7 +17,7 @@ class SHA256Test {
         String encrypt = SHA256.encrypt(password);
 
         // then
-        Assertions.assertThat("9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08").isEqualTo(encrypt);
+        assertThat("9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08").isEqualTo(encrypt);
     }
 
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import side.project.furni.api.controller.member.request.CreateRequest;
 import side.project.furni.api.controller.member.request.LoginRequest;
 import side.project.furni.api.service.member.MemberService;
+import side.project.furni.api.service.member.request.CreateServiceRequest;
 import side.project.furni.api.service.member.request.LoginServiceRequest;
 import side.project.furni.common.dto.ApiResponse;
 
@@ -20,7 +21,7 @@ public class MemberController {
 
     @PostMapping("/create")
     public ApiResponse<?> create(@RequestBody final CreateRequest request) {
-        return memberService.create(new side.project.furni.api.service.member.request.CreateServiceRequest(request));
+        return memberService.create(new CreateServiceRequest(request));
     }
 
     @PostMapping("/login")
