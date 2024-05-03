@@ -70,11 +70,11 @@ class MemberControllerTest extends ControllerTestSupport {
     @DisplayName("회원이 로그인에 성공한다")
     void login_SuccessfulLogin() throws Exception {
         // given
-        String id = "test";
+        String userId = "test";
         String password = "test";
         String name = "관리자";
-        LoginRequest request = new LoginRequest(id, password);
-        ApiResponse<?> response = ApiResponse.from(new LoginResponse(1L, id, name));
+        LoginRequest request = new LoginRequest(userId, password);
+        ApiResponse<?> response = ApiResponse.from(new LoginResponse(1L, userId, name));
         given(memberController.login(any(LoginRequest.class)))
                 .will(invocation -> response);
 
@@ -88,8 +88,8 @@ class MemberControllerTest extends ControllerTestSupport {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.result").value(true))
                 .andExpect(jsonPath("$.contents").isNotEmpty())
-                .andExpect(jsonPath("$.contents.memberId").value(1L))
-                .andExpect(jsonPath("$.contents.id").value(id))
+                .andExpect(jsonPath("$.contents.id").value(1L))
+                .andExpect(jsonPath("$.contents.userId").value(userId))
                 .andExpect(jsonPath("$.contents.name").value(name))
                 .andExpect(jsonPath("$.error").value(nullValue()));
     }

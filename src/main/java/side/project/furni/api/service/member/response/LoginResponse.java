@@ -1,8 +1,8 @@
 package side.project.furni.api.service.member.response;
 
 public record LoginResponse(
-        Long memberId,
-        String id,
+        Long id,
+        String userId,
         String name
 ) {
 }

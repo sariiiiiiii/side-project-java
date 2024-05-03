@@ -5,10 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import side.project.furni.api.controller.cart.CartController;
 import side.project.furni.api.controller.member.MemberController;
 
 @WebMvcTest(controllers = {
-        MemberController.class
+        MemberController.class,
+        CartController.class
 })
 public abstract class ControllerTestSupport {
 
@@ -18,5 +20,7 @@ public abstract class ControllerTestSupport {
     protected ObjectMapper objectMapper;
     @MockBean
     protected MemberController memberController;
+    @MockBean
+    protected CartController cartController;
 
 }

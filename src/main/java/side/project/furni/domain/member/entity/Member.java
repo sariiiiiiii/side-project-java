@@ -7,7 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import side.project.furni.api.service.member.request.CreateServiceRequest;
 import side.project.furni.common.BaseTimeEntity;
+import side.project.furni.domain.cart.entity.Cart;
 import side.project.furni.util.SHA256;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -18,10 +21,10 @@ public class Member extends BaseTimeEntity {
     @Id
     @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long memberId;
+    private Long id;
 
-    @Column(name = "id", nullable = false, unique = true, length = 10)
-    private String id;
+    @Column(name = "user_id", nullable = false, unique = true, length = 10)
+    private String userId;
 
     @Column(name = "password", nullable = false)
     private String password;
@@ -29,15 +32,18 @@ public class Member extends BaseTimeEntity {
     @Column(name = "name", length = 10)
     private String name;
 
+    @OneToMany(mappedBy = "member")
+    private List<Cart> carts;
+
     @Builder
-    public Member(String id, String password, String name) {
-        this.id = id;
+    public Member(String userId, String password, String name) {
+        this.userId = userId;
         this.password = password;
         this.name = name;
     }
 
     public Member(CreateServiceRequest request) {
-        this.id = request.id();
+        this.userId = request.id();
         this.password = SHA256.encrypt(request.password());
         this.name = request.name();
     }

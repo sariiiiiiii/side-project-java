@@ -138,7 +138,7 @@ public class MemberControllerRestDocs extends RestDocsSupport {
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
-                                fieldWithPath("id").type(JsonFieldType.STRING)
+                                fieldWithPath("userId").type(JsonFieldType.STRING)
                                         .description("아이디"),
                                 fieldWithPath("password").type(JsonFieldType.STRING)
                                         .description("비밀번호")
@@ -148,9 +148,9 @@ public class MemberControllerRestDocs extends RestDocsSupport {
                                         .description("결과"),
                                 fieldWithPath("contents").type(JsonFieldType.OBJECT)
                                         .description("결과 데이터").optional(),
-                                fieldWithPath("contents.memberId").type(JsonFieldType.NUMBER)
+                                fieldWithPath("contents.id").type(JsonFieldType.NUMBER)
                                         .description("회원 고유아이디").optional(),
-                                fieldWithPath("contents.id").type(JsonFieldType.STRING)
+                                fieldWithPath("contents.userId").type(JsonFieldType.STRING)
                                         .description("회원 ID").optional(),
                                 fieldWithPath("contents.name").type(JsonFieldType.STRING)
                                         .description("회원 이름").optional(),
@@ -183,7 +183,7 @@ public class MemberControllerRestDocs extends RestDocsSupport {
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
-                                fieldWithPath("id").type(JsonFieldType.STRING)
+                                fieldWithPath("userId").type(JsonFieldType.STRING)
                                         .description("아이디"),
                                 fieldWithPath("password").type(JsonFieldType.STRING)
                                         .description("비밀번호")

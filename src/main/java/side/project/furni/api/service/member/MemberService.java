@@ -24,7 +24,7 @@ public class MemberService {
 
     @Transactional
     public ApiResponse<?> create(final CreateServiceRequest request) {
-        Optional<Member> optionalMember = memberRepository.findById(request.id());
+        Optional<Member> optionalMember = memberRepository.findByUserId(request.id());
         if (optionalMember.isPresent()) {
             throw new DuplicateMemberException();
         }
@@ -34,9 +34,9 @@ public class MemberService {
     }
 
     public ApiResponse<?> login(final LoginServiceRequest request) {
-        Member findMember = memberRepository.findByIdAndPassword(request.id(), SHA256.encrypt(request.password()))
+        Member findMember = memberRepository.findByUserIdAndPassword(request.userId(), SHA256.encrypt(request.password()))
                 .orElseThrow(LoginFailedApiException::new);
-        return ApiResponse.from(new LoginResponse(findMember.getMemberId(), findMember.getId(), findMember.getName()));
+        return ApiResponse.from(new LoginResponse(findMember.getId(), findMember.getUserId(), findMember.getName()));
     }
 
 }
